@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoritesListViewController: UIViewController {
+class FavoritesListViewController: GFViewController {
     
     private let favoriteListView = FavoriteListView()
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: GFViewController {
     
     private let searchView = SearchView()
     

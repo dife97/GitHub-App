@@ -9,6 +9,8 @@ import UIKit
 
 class GFTextField: UITextField {
     
+    var returnAction: (() -> Void)?
+    
     init(placeholder: String) {
         super.init(frame: .zero)
         
@@ -29,6 +31,8 @@ class GFTextField: UITextField {
         
         translatesAutoresizingMaskIntoConstraints = false
         
+        delegate = self
+        
         backgroundColor = .tertiarySystemBackground
         
         layer.cornerRadius = 10
@@ -43,5 +47,15 @@ class GFTextField: UITextField {
         minimumFontSize = 12
         
         autocorrectionType = .no
+    }
+}
+
+extension GFTextField: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        returnAction?()
+        
+        return true
     }
 }

@@ -9,17 +9,29 @@ import UIKit
 
 class GFButton: UIButton {
     
+    private var buttonTitle: String
+    
+    private var buttonBackgroundColor: UIColor
+    
     var buttonAction: (() -> Void)?
+    
+    private lazy var loadingView: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView(style: .medium)
+        
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.color = .white
+        
+        return activityIndicatorView
+    }()
     
     init(
         backgroundColor: UIColor,
         title: String
     ) {
+        self.buttonTitle = title
+        self.buttonBackgroundColor = backgroundColor
+        
         super.init(frame: .zero)
-        
-        self.backgroundColor = backgroundColor
-        
-        self.setTitle(title, for: .normal)
         
         configureGFButton()
     }
@@ -36,13 +48,37 @@ class GFButton: UIButton {
         
         translatesAutoresizingMaskIntoConstraints = false
         
+        backgroundColor = buttonBackgroundColor
+        
         layer.cornerRadius = 10
         
+        setTitle(buttonTitle, for: .normal)
         titleLabel?.textColor = .white
         titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         
         addTarget(self, action: #selector(applyTapEffect), for: .touchDown)
         addTarget(self, action: #selector(didTouchUpInside), for: .touchUpInside)
+    }
+    
+    func startLoading() {
+        
+        addSubview(loadingView)
+        
+        NSLayoutConstraint.activate([
+            loadingView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loadingView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+        
+        setTitle("", for: .normal)
+        
+        loadingView.startAnimating()
+    }
+    
+    func stopLoading() {
+        
+        loadingView.stopAnimating()
+        
+        setTitle(buttonTitle, for: .normal)
     }
     
     @objc

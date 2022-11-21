@@ -7,9 +7,9 @@
 
 import UIKit
 
-class FavoritesListViewController: GFViewController {
+final class FavoritesListViewController: GFViewController {
     
-    private let favoriteListView = FavoriteListView()
+    private let favoriteListView = FavoritesListView()
     
     override func loadView() {
         

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoriteListView: UIView {
+final class FavoritesListView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

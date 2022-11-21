@@ -7,14 +7,40 @@
 
 import UIKit
 
-class SearchView: UIView {
+protocol SearchViewDelegate: AnyObject {
+    
+    func didTapGetFollowers()
+}
+
+final class SearchView: UIView {
+    
+    private weak var delegate: SearchViewDelegate?
     
     private lazy var logoImageView = GFImageView(imageName: "github-logo")
     
-    private lazy var usernameTextField = GFTextField(placeholder: "Enter a username")
+    private lazy var usernameTextField: GFTextField = {
+        let textField = GFTextField(placeholder: "Enter a username")
+        
+        textField.returnKeyType = .go
+        
+        textField.returnAction = { [unowned self] in
+            
+            self.delegate?.didTapGetFollowers()
+        }
+        
+        return textField
+    }()
     
-    private lazy var getFollowersButton = GFButton(backgroundColor: .systemGreen,
-                                                   title: "Get Followers")
+    lazy var getFollowersButton: GFButton = {
+        let button = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
+        
+        button.buttonAction = { [unowned self] in
+            
+            self.delegate?.didTapGetFollowers()
+        }
+        
+        return button
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -74,5 +100,10 @@ class SearchView: UIView {
     private func additionalConfiguration() {
         
         backgroundColor = .systemBackground
+    }
+    
+    func configure(delegate: SearchViewDelegate) {
+        
+        self.delegate = delegate
     }
 }

@@ -9,6 +9,13 @@ import UIKit
 
 class FavoritesListViewController: UIViewController {
     
+    private let favoriteListView = FavoriteListView()
+    
+    override func loadView() {
+        
+        view = favoriteListView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

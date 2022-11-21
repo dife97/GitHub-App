@@ -9,9 +9,22 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
+    private let searchView = SearchView()
+    
+    override func loadView() {
+        
+        view = searchView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemPink
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = true
     }
 }

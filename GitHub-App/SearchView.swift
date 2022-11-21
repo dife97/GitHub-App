@@ -14,6 +14,16 @@ protocol SearchViewDelegate: AnyObject {
 
 final class SearchView: UIView {
     
+    var usernameIsEntered: Bool {
+        if let usernameText = usernameTextField.text, !usernameText.isEmpty {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    var didChangeSelection: (() -> Void)?
+    
     private weak var delegate: SearchViewDelegate?
     
     private lazy var logoImageView = GFImageView(imageName: "github-logo")
@@ -28,6 +38,11 @@ final class SearchView: UIView {
             self.delegate?.didTapGetFollowers()
         }
         
+        textField.didChangeSelection = { [unowned self] in
+            
+            self.didChangeSelection?()
+        }
+        
         return textField
     }()
     
@@ -38,6 +53,8 @@ final class SearchView: UIView {
             
             self.delegate?.didTapGetFollowers()
         }
+        
+        button.disable()
         
         return button
     }()
@@ -100,6 +117,12 @@ final class SearchView: UIView {
     private func additionalConfiguration() {
         
         backgroundColor = .systemBackground
+    }
+    
+    func clearUsernameTextField() {
+        
+        usernameTextField.text = ""
+        usernameTextField.resignFirstResponder()
     }
     
     func configure(delegate: SearchViewDelegate) {

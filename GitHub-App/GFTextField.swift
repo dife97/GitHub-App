@@ -11,6 +11,8 @@ class GFTextField: UITextField {
     
     var returnAction: (() -> Void)?
     
+    var didChangeSelection: (() -> Void)?
+    
     init(placeholder: String) {
         super.init(frame: .zero)
         
@@ -57,5 +59,10 @@ extension GFTextField: UITextFieldDelegate {
         returnAction?()
         
         return true
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        
+        didChangeSelection?()
     }
 }

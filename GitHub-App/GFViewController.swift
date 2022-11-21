@@ -39,7 +39,9 @@ class GFViewController: UIViewController {
     func viewDismissKeyboard() {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification,
                                                object: nil,
-                                               queue: nil) { [unowned self] notification in
+                                               queue: nil) { [weak self] notification in
+            
+            guard let self = self else { return }
             
             guard let keyboardHeight = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
             

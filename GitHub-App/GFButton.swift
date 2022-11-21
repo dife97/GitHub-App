@@ -60,6 +60,20 @@ class GFButton: UIButton {
         addTarget(self, action: #selector(didTouchUpInside), for: .touchUpInside)
     }
     
+    func enable() {
+        
+        self.isEnabled = true
+        
+        backgroundColor = buttonBackgroundColor
+    }
+    
+    func disable() {
+        
+        self.isEnabled = false
+        
+        backgroundColor = .systemGray
+    }
+    
     func startLoading() {
         
         addSubview(loadingView)

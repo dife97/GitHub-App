@@ -9,7 +9,16 @@ import UIKit
 
 final class SearchViewController: GFViewController {
     
-    private let searchView = SearchView()
+    private lazy var searchView: SearchView = {
+        let view = SearchView()
+        
+        view.didChangeSelection = { [unowned self] in
+            
+            self.checkToEnableGetFollowersButton()
+        }
+        
+        return view
+    }()
     
     private let searchViewModel = SearchViewModel()
     
@@ -36,6 +45,15 @@ final class SearchViewController: GFViewController {
         
         searchViewModel.configure(delegate: self)
     }
+    
+    private func checkToEnableGetFollowersButton() {
+        
+        if searchView.usernameIsEntered {
+            searchView.getFollowersButton.enable()
+        } else {
+            searchView.getFollowersButton.disable()
+        }
+    }
 }
 
 extension SearchViewController: SearchViewDelegate {
@@ -43,6 +61,7 @@ extension SearchViewController: SearchViewDelegate {
     func didTapGetFollowers() {
         
         searchView.getFollowersButton.startLoading()
+        searchView.endEditing(true)
         
         searchViewModel.getFollowers()
     }
@@ -57,5 +76,6 @@ extension SearchViewController: SearchViewModelDelegate {
         navigationController?.pushViewController(followersListViewController, animated: true)
         
         searchView.getFollowersButton.stopLoading()
+        searchView.clearUsernameTextField()
     }
 }
